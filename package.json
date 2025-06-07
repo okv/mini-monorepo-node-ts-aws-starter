@@ -1,0 +1,14 @@
+{
+  "name": "mini-monorepo-node-ts-aws-starter",
+  "version": "1.0.0",
+  "description": "A Node.js TypeScript monorepo, see README.md for more details",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["nodejs", "typescript"],
+  "author": "",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@10.11.1",
+  "type": "module"
+}
