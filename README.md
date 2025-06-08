@@ -34,9 +34,9 @@ added 1 package in 2s
 ```
 
 
-## How to make a new lambda
+## How to make and manage a lambda
 
-Please make sure that everything is installed first, then run:
+Please make sure that everything is installed first, then run this to create a new lambda from a template:
 
 ```sh
 > pnpm lambda:create foo-lambda
@@ -48,4 +48,21 @@ Updated: lambdas/foo-lambda/package.json
 Updated: lambdas/foo-lambda/README.md
 Running "pnpm install" for "foo-lambda"
 Done, please manually commit the changes now!
+```
+
+You can remove it using the following command:
+
+```sh
+> pnpm lambda:remove foo-lambda
+
+remove.mjs run with args: [ 'lambdas', 'foo-lambda' ]
+> Removing "lambdas/foo-lambda" recursively
+> Running "pnpm install" to clean up dependencies
+Scope: all 2 workspace projects
+Packages: -1
+-
+
+Done in 135ms using pnpm v10.11.1
+
+*** Done, please manually commit the changes now!
 ```
