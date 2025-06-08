@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { parseArgs } from 'node:util';
 
 const USAGE = (
-  'USAGE: create#cmd.mjs TEMPLATE PROJECT_DIR PROJECT_NAME\n' +
+  'USAGE: create.mjs TEMPLATE PROJECT_DIR PROJECT_NAME\n' +
   '       lambda:create PROJECT_NAME'
 );
 const NAME_PLACEHOLDER = '%PROJECT_NAME%';
@@ -52,7 +52,7 @@ async function main() {
     return null;
   } 
 
-  console.log('create#cmd.mjs run with args:', args);
+  console.log('create.mjs run with args:', args);
 
   const projectPath = join(projectDir, projectName);
   console.log(`Copying "${templatePath}" to "${projectPath}"`);
