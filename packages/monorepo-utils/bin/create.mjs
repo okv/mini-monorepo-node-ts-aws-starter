@@ -63,6 +63,7 @@ async function main() {
   });
 
   console.log(`> Updating "${projectPath}"`);
+  // TODO: add PROJECT_DESCRIPTION support
   await replaceInFile(join(projectPath, 'package.json'), NAME_PLACEHOLDER, projectName);
   await replaceInFile(join(projectPath, 'README.md'), NAME_PLACEHOLDER, projectName);
 

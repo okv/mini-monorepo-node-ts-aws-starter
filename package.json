@@ -5,7 +5,7 @@
   "main": "",
   "scripts": {
     "lambda:create": "packages/monorepo-utils/bin/create.mjs templates/lambda lambdas",
-    "lambda:remove": "echo \"Error: not implemented\" && exit 1",
+    "lambda:remove": "packages/monorepo-utils/bin/remove.mjs lambdas",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["nodejs", "typescript"],
