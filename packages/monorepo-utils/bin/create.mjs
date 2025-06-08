@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { spawnSync } from 'node:child_process';
+import { execSync } from 'node:child_process';
 import { access, constants as fsconst, cp, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { parseArgs } from 'node:util';
@@ -55,21 +55,22 @@ async function main() {
   console.log('create.mjs run with args:', args);
 
   const projectPath = join(projectDir, projectName);
-  console.log(`Copying "${templatePath}" to "${projectPath}"`);
+  console.log(`> Copying "${templatePath}" to "${projectPath}"`);
   await cp(templatePath, projectPath, {
     errorOnExist: true,
     force: false,
     recursive: true,
   });
 
-  console.log(`Updating "${projectPath}"`);
+  console.log(`> Updating "${projectPath}"`);
   await replaceInFile(join(projectPath, 'package.json'), NAME_PLACEHOLDER, projectName);
   await replaceInFile(join(projectPath, 'README.md'), NAME_PLACEHOLDER, projectName);
 
-  console.log(`Running "pnpm install" for "${projectName}"`);
-  spawnSync('pnpm', ['--filter', projectName]);
+  console.log(`> Running "pnpm install" for "${projectName}"`);
+  const installOutput = execSync(`pnpm --filter ${projectName} install`).toString('utf8');
+  console.log(installOutput);
 
-  console.log('Done, please manually commit the changes now!');
+  console.log('*** Done, please manually commit the changes now!');
 }
 
 await main();
