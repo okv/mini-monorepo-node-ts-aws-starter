@@ -106,8 +106,14 @@ And finally we can call it:
 > aws lambda invoke --profile sbox --function-name foo-lambda --cli-binary-format raw-in-base64-out --payload '{ "key": "value" }' /dev/stdout
 
 
-{"statusCode":200,"body":"{\"hello\":\"Hello from Lambda!\"}"}
+{"statusCode":200,"body":"{\"hello\":\"Hello from Lambda!\",\"inputEvent\":{\"key\":\"value\"}}"}
     "StatusCode": 200,
     "ExecutedVersion": "$LATEST"
 }
+```
+
+The function's code can be updating using the following command:
+
+```sh
+aws lambda update-function-code --profile sbox --function-name foo-lambda  --zip-file fileb://lambdas/foo-lambda/lambda.zip
 ```
