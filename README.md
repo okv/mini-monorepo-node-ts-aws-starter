@@ -11,6 +11,7 @@ Work in progress...
 ## Prerequisites
 
 - [nvm](https://github.com/nvm-sh/nvm) - Node Version Manager.
+- Basic Unix commands are in place: [zip](https://infozip.sourceforge.net/Zip.html), `rm`.
 
 
 ## Runtime and dependencies
@@ -50,10 +51,10 @@ Running "pnpm install" for "foo-lambda"
 Done, please manually commit the changes now!
 ```
 
-You can remove it using the following command:
+You can delete it using the following command:
 
 ```sh
-> pnpm lambda:remove foo-lambda
+> pnpm lambda:delete foo-lambda
 
 remove.mjs run with args: [ 'lambdas', 'foo-lambda' ]
 > Removing "lambdas/foo-lambda" recursively
@@ -66,3 +67,82 @@ Done in 135ms using pnpm v10.11.1
 
 *** Done, please manually commit the changes now!
 ```
+
+## Managing lambdas with AWS CLI
+
+This section describes how to use AWS CLI v2 to deploy and manage a locally created lambda to AWS. We will be using a separate AWS CLI settings profile that's called `sbox` in all the commands below. To avoid passing `--profile sbox` to all the commands we can do the following:
+
+```sh
+export AWS_PROFILE="sbox"
+```
+
+Before getting started, please make sure that the following prerequisites are met:
+
+- [AWS CLI V2 is installed](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)(TLTR: `brew install awscli`)
+- [Settings for the AWS CLI are configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)(TLTR: `aws configure`)
+
+Let's create and build a lambda using this repo commands first:
+
+```sh
+pnpm lambda:create foo-lambda && pnpm --filter foo-lambda build
+```
+
+Then we're going to need a very basic role with an [AssumeRole action](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) for our lambda function:
+
+```sh
+aws iam create-role \
+  --role-name basic-lambda-role \
+  --assume-role-policy-document '{ "Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "lambda.amazonaws.com" }, "Action": "sts:AssumeRole" } ] }'
+```
+
+Let's remember the role's ARN from the command's output as we'll need it later:
+
+```sh
+export BASIC_LAMBDA_ROLE_ARN="YOUR ROLE's ARN GOES HERE"
+```
+
+By the way, many of the AWS CLI commands could be reversed redone by using their counterparts:
+
+```sh
+aws iam delete-role --role-name basic-lambda-role
+```
+
+Now we can deploy the function:
+
+```sh
+aws lambda create-function --function-name foo-lambda --runtime nodejs22.x --zip-file fileb://lambdas/foo-lambda/lambda.zip --handler index.handler --role "$BASIC_LAMBDA_ROLE_ARN"
+```
+
+And finally we can call the function:
+
+```sh
+> aws lambda invoke --function-name foo-lambda --cli-binary-format raw-in-base64-out --payload '{ "key": "value" }' /dev/stdout
+
+
+{"statusCode":200,"body":"{\"hello\":\"Hello from Lambda!\",\"inputEvent\":{\"key\":\"value\"}}"}
+    "StatusCode": 200,
+    "ExecutedVersion": "$LATEST"
+}
+```
+
+The function's code can be updating using the following command:
+
+```sh
+aws lambda update-function-code --function-name foo-lambda  --zip-file fileb://lambdas/foo-lambda/lambda.zip
+```
+
+Permissions could be granted to our lambda via the created IAM role. For example, to grant full access to the CloudWatch service to our lambda we can do the following:
+
+```sh
+aws iam attach-role-policy --role-name basic-lambda-role --policy-arn "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+```
+
+You can find more information about the above AWS CLI commands in the AWS docs:
+
+- [aws iam attach-role-policy](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/attach-role-policy.html)
+- [aws iam create-role](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/create-role.html)
+- [aws iam delete-role](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/delete-role.html)
+- [aws iam detach-role-policy](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/detach-role-policy.html)
+- [aws lambda create-function](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lambda/create-function.html)
+- [aws lambda delete-function](https://docs.aws.amazon.com/cli/latest/reference/lambda/delete-function.html)
+- [aws lambda update-function-code](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lambda/update-function-code.html)

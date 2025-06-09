@@ -2,8 +2,12 @@
   "name": "%PROJECT_NAME%",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.mjs",
   "scripts": {
+    "build:cleanup": "rm -f dist/index.js lambda.zip",
+    "build:bundle": "esbuild --bundle --outfile=./dist/index.js --platform=node --target=node22 ./index.mjs",
+    "build:zip": "zip -j lambda.zip dist/index.js",
+    "build": "pnpm build:cleanup && pnpm build:bundle && pnpm build:zip",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,6 +15,7 @@
   "license": "UNLICENSED",
   "type": "module",
   "devDependencies": {
+    "esbuild": "^0.25.5",
     "typescript": "^5.8.3"
   }
 }
