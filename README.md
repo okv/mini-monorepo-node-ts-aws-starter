@@ -5,7 +5,20 @@ This a minimalistic monorepository template to develop projects in TypeScript an
 
 ## Using this repo as a template
 
-Work in progress...
+To use the latest commit of the main branch as a base for a new repository you can do the following:
+
+```sh
+git clone https://github.com/okv/mini-monorepo-node-ts-aws-starter.git &&
+cd mini-monorepo-node-ts-aws-starter/ &&
+git checkout-index --prefix=../my-new-monorepo/ -a &&
+cd ../my-new-monorepo &&
+git init &&
+rm -rf ../mini-monorepo-node-ts-aws-starter/ &&
+echo " *** Now you can adjust any of the files, commit the changes and push it to your remote ***" &&
+git status;
+```
+
+Alternatively, you can click "Use this template" button on GitHub :github:.
 
 
 ## Prerequisites
