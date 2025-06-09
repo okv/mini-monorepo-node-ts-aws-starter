@@ -7,7 +7,7 @@ import { parseArgs } from 'node:util';
 
 const USAGE = (
   'USAGE: remove.mjs PROJECT_DIR PROJECT_NAME\n' +
-  '       lambda:remove PROJECT_NAME'
+  '       lambda:delete PROJECT_NAME'
 );
 
 async function main() {
