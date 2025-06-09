@@ -78,8 +78,8 @@ export AWS_PROFILE="sbox"
 
 Before getting started, please make sure that the following prerequisites are met:
 
-- [AWS CLI V2 is installed](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-- [Settings for the AWS CLI are configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)(LTLR: `aws configure`)
+- [AWS CLI V2 is installed](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)(TLTR: `brew install awscli`)
+- [Settings for the AWS CLI are configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)(TLTR: `aws configure`)
 
 Let's create and build a lambda using this repo commands first:
 
