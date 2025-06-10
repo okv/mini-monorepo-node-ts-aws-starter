@@ -1,11 +1,30 @@
 # mini-monorepo-node-ts-aws-starter
 
-This a minimalistic monorepository template to develop projects in TypeScript and run it using Node.js on AWS.
+This a minimalistic monorepository template to develop projects in TypeScript and run it using Node.js on AWS. This template is built with the following things in mind:
+
+1. It uses the standard Node.js library when possible and the API is stable enough :smiley:. For example, the default [Node.js tests runner and assertion library](https://nodejs.org/docs/latest-v22.x/api/test.html) has been used in the lambda templates.
+2. It doesn't introduce unnecessary dependencies (neither dev no prod ones) to keep the dev setup and lambda builds fast :rocket:.
+3. It doesn't aim to be a comprehensive monorepo solution but rather provides a useful base to develop maintainable (you may expect to find some tools for linting, testing, running projects locally there) TypeScript Node.js projects that are meant to be run on AWS.
+4. It focuses on AWS lambda for now, but more AWS services could be added later.
+5. After all, it's just a starting point for your repository, so you can tailor it to your needs.
 
 
 ## Using this repo as a template
 
-Work in progress...
+To use the latest commit of the main branch as a base for a new repository you can do the following:
+
+```sh
+git clone https://github.com/okv/mini-monorepo-node-ts-aws-starter.git &&
+cd mini-monorepo-node-ts-aws-starter/ &&
+git checkout-index --prefix=../my-new-monorepo/ -a &&
+cd ../my-new-monorepo &&
+git init &&
+rm -rf ../mini-monorepo-node-ts-aws-starter/ &&
+echo " *** Now you can adjust any of the files, commit the changes and push it to your remote ***" &&
+git status;
+```
+
+Alternatively, you can click "Use this template" button on GitHub :octocat:.
 
 
 ## Prerequisites
