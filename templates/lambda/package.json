@@ -5,10 +5,10 @@
   "main": "index.mjs",
   "scripts": {
     "build:cleanup": "rm -rf dist/ lambda.zip",
-    "build:ts": "tsc",
+    "build:compile": "tsc",
     "build:bundle": "esbuild --bundle --outfile=./dist/bundle/index.js --platform=node --target=node22 ./dist/index.js",
     "build:zip": "zip -j lambda.zip dist/bundle/index.js",
-    "build": "pnpm build:cleanup && pnpm build:ts && pnpm build:bundle && pnpm build:zip",
+    "build": "pnpm build:cleanup && pnpm build:compile && pnpm build:bundle && pnpm build:zip",
     "check:types": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,7 +17,6 @@
   "license": "UNLICENSED",
   "type": "module",
   "devDependencies": {
-    "@tsconfig/node22": "^22.0.2",
     "@types/node": "22.15.30",
     "esbuild": "^0.25.5",
     "typescript": "^5.8.3"
